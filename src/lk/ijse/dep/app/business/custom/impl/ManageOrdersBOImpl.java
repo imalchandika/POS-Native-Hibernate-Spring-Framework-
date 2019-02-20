@@ -87,15 +87,20 @@ public class ManageOrdersBOImpl implements ManageOrdersBO {
         List<OrderDetailDTO> dtoList = new ArrayList<>();
 
         List<CustomEntity> odwtid = queryDAO.findOrderDetailsWithItemDescriptions(orderId);
+        String cusID=null;
+        for (CustomEntity customEntity : odwtid) {
+            cusID=customEntity.getCustomerId();
+        }
         OrderDTO orderDTO = null;
 
 
-        customerDTO = customerDAO.find("c001").map(Converter::<CustomerDTO>getDTO).orElse(null);
+
+        customerDTO = customerDAO.find(cusID).map(Converter::<CustomerDTO>getDTO).orElse(null);
 
         List<OrderDetail> orderDetails = orderDetailDAO.find(orderId);
         for (OrderDetail orderDetail : orderDetails) {
-            System.out.println(orderDetail.getOrder().getId()+" "+ orderDetail.getCode().getDescription()+" "+orderDetail.getQty()+" "+orderDetail.getUnitPrice());
-            dtoList.add(new OrderDetailDTO(orderDetail.getOrder().getId(), orderDetail.getCode().getDescription(), orderDetail.getQty(), orderDetail.getUnitPrice()));
+            System.out.println(orderDetail.getOrder().getId()+" "+ orderDetail.getItem().getDescription()+" "+orderDetail.getQty()+" "+orderDetail.getUnitPrice());
+            dtoList.add(new OrderDetailDTO(orderDetail.getItem().getCode(), orderDetail.getItem().getDescription(), orderDetail.getQty(), orderDetail.getUnitPrice()));
         }
 
         for (CustomEntity customEntity : odwtid) {

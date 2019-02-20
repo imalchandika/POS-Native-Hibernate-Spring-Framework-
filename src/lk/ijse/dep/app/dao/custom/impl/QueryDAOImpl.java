@@ -29,7 +29,7 @@ public class QueryDAOImpl implements QueryDAO {
 
         for(Object[] arr : list){
             customEntityArrayList.add(new CustomEntity((String)arr[0],(Date)arr[1],(String)arr[2],(String)arr[3],(double)arr[4]));
-            System.out.println( Arrays.toString(arr)+"  ad@mia  "+arr[1]);
+            System.out.println( Arrays.toString(arr)+"  ad@mia  "+arr[4]);
         }
         return customEntityArrayList;
     }
@@ -43,7 +43,7 @@ public class QueryDAOImpl implements QueryDAO {
 
         for(Object[] arr : list){
             customEntityArrayList.add(new CustomEntity((String)arr[0],(Date)arr[1],(String)arr[2],(String)arr[3],(double)arr[4]));
-          System.out.println( Arrays.toString(arr)+"  ad@mia  "+arr[1]);
+          System.out.println( Arrays.toString(arr)+"  ad@mia  "+arr[4]);
         }
         return customEntityArrayList;
     }
