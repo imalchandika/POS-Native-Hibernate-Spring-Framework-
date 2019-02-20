@@ -8,16 +8,16 @@ public class OrderDTO extends SuperDTO{
 
     private String id;
     private LocalDate date;
-    private String customerId;
+    private CustomerDTO customerDTO;
     private List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
 
     public OrderDTO() {
     }
 
-    public OrderDTO(String id, LocalDate date, String customerId, List<OrderDetailDTO> orderDetailDTOS) {
+    public OrderDTO(String id, LocalDate date, CustomerDTO customerDTO, List<OrderDetailDTO> orderDetailDTOS) {
         this.id = id;
         this.date = date;
-        this.customerId = customerId;
+        this.customerDTO = customerDTO;
         this.orderDetailDTOS = orderDetailDTOS;
     }
 
@@ -37,12 +37,12 @@ public class OrderDTO extends SuperDTO{
         this.date = date;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public CustomerDTO getCustomerDTO() {
+        return customerDTO;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setCustomerDTO(String customerId) {
+        this.customerDTO = customerDTO;
     }
 
     public List<OrderDetailDTO> getOrderDetailDTOS() {
@@ -58,7 +58,7 @@ public class OrderDTO extends SuperDTO{
         return "OrderDTO{" +
                 "id='" + id + '\'' +
                 ", date=" + date +
-                ", customerId='" + customerId + '\'' +
+                ", customerDTO='" + customerDTO + '\'' +
                 ", orderDetailDTOS=" + orderDetailDTOS +
                 '}';
     }
