@@ -34,7 +34,7 @@ public class SearchOrderFormController {
 
     private ObservableList<OrderTM> olOrders;
 
-    private ManageOrdersBO manageOrdersBO;
+    private ManageOrdersBO manageOrdersBO=AppInitializer.ctx.getBean(ManageOrdersBO.class);
 
     public void initialize() {
         tblOrders.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("orderId"));

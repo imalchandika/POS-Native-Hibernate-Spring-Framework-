@@ -5,9 +5,11 @@ import lk.ijse.dep.app.business.custom.ManageOrdersBO;
 import lk.ijse.dep.app.dao.custom.ItemDAO;
 import lk.ijse.dep.app.dao.custom.OrderDAO;
 import lk.ijse.dep.app.dao.custom.OrderDetailDAO;
+import lk.ijse.dep.app.dao.custom.QueryDAO;
 import lk.ijse.dep.app.dto.OrderDTO;
 import lk.ijse.dep.app.dto.OrderDTO2;
 import lk.ijse.dep.app.dto.OrderDetailDTO;
+import lk.ijse.dep.app.entity.CustomEntity;
 import lk.ijse.dep.app.entity.Item;
 import lk.ijse.dep.app.entity.Order;
 import lk.ijse.dep.app.entity.OrderDetail;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 @Component
 @Transactional
@@ -24,22 +27,31 @@ public class ManageOrdersBOImpl implements ManageOrdersBO {
     private OrderDAO orderDAO;
     private OrderDetailDAO orderDetailDAO;
     private ItemDAO itemDAO;
+    private QueryDAO queryDAO;
 
     @Autowired
-    public ManageOrdersBOImpl(OrderDAO orderDAO,OrderDetailDAO orderDetailDAO,ItemDAO itemDAO) {
+    public ManageOrdersBOImpl(OrderDAO orderDAO,OrderDetailDAO orderDetailDAO,ItemDAO itemDAO,QueryDAO queryDAO) {
        this.orderDAO=orderDAO;
        this.orderDetailDAO=orderDetailDAO;
-        this.itemDAO=itemDAO;
+       this.itemDAO=itemDAO;
+       this.queryDAO=queryDAO;
     }
 
     @Override
     public List<OrderDTO2> getOrdersWithCustomerNamesAndTotals() throws Exception {
-        return null;
+        List<CustomEntity> alt = queryDAO.findAllOrdersWithCustomerNameAndTotal();
+
+        ArrayList<OrderDTO2> objects = new ArrayList<>();
+        for (CustomEntity customEntity : alt) {
+            objects.add(new OrderDTO2(customEntity.getOrderId(), customEntity.getOrderDate().toLocalDate(), customEntity.getCustomerId(), customEntity.getCustomerName(), customEntity.getTotal()));
+        }
+        return objects;
     }
 
     @Override
     public List<OrderDTO> getOrders() throws Exception {
-        return null;
+        List<OrderDTO> orderDTOS = orderDAO.findAll().map(Converter::<OrderDTO>getDTOList).get();
+        return orderDTOS;
     }
 
     @Override
