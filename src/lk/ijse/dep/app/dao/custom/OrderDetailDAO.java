@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderDetailDAO extends CrudDAO<OrderDetail, OrderDetailPK> {
-
-    Optional<List<OrderDetail>> find(String orderId) throws Exception;
+    List<OrderDetail> find(String orderId) throws Exception;
 
 }

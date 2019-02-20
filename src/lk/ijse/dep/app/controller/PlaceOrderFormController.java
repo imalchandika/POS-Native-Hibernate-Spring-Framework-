@@ -28,6 +28,7 @@ import lk.ijse.dep.app.dto.CustomerDTO;
 import lk.ijse.dep.app.dto.ItemDTO;
 import lk.ijse.dep.app.dto.OrderDTO;
 import lk.ijse.dep.app.dto.OrderDetailDTO;
+import lk.ijse.dep.app.main.AppInitializer;
 import lk.ijse.dep.app.view.util.OrderDetailTM;
 
 import java.io.IOException;
@@ -68,9 +69,9 @@ public class PlaceOrderFormController {
 
     private ObservableList<ItemDTO> tempItemsDB = FXCollections.observableArrayList();
 
-    private ManageOrdersBO manageOrdersBO;// = BOFactory.getInstance().getBO(BOFactory.BOTypes.MANAGE_ORDERS);
-    private ManageItemsBO manageItemsBO;// = BOFactory.getInstance().getBO(BOFactory.BOTypes.MANAGE_ITEMS);
-    private ManageCustomersBO manageCustomersBO;// = BOFactory.getInstance().getBO(BOFactory.BOTypes.MANAGE_CUSTOMERS);
+    private ManageOrdersBO manageOrdersBO= AppInitializer.ctx.getBean(ManageOrdersBO.class);
+    private ManageItemsBO manageItemsBO=AppInitializer.ctx.getBean(ManageItemsBO.class);
+    private ManageCustomersBO manageCustomersBO=AppInitializer.ctx.getBean(ManageCustomersBO.class);
 
     public void initialize() {
 

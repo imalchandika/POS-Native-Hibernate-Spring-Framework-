@@ -1,12 +1,25 @@
 package lk.ijse.dep.app.business.custom.impl;
 
 import lk.ijse.dep.app.business.custom.ManageOrdersBO;
+import lk.ijse.dep.app.dao.custom.OrderDAO;
 import lk.ijse.dep.app.dto.OrderDTO;
 import lk.ijse.dep.app.dto.OrderDTO2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@Component
+@Transactional
 public class ManageOrdersBOImpl implements ManageOrdersBO {
+
+    private OrderDAO orderDAO;
+    @Autowired
+    public ManageOrdersBOImpl(OrderDAO orderDAO) {
+       this.orderDAO=orderDAO;
+
+    }
+
     @Override
     public List<OrderDTO2> getOrdersWithCustomerNamesAndTotals() throws Exception {
         return null;
@@ -19,7 +32,8 @@ public class ManageOrdersBOImpl implements ManageOrdersBO {
 
     @Override
     public String generateOrderId() throws Exception {
-        return null;
+        String count = orderDAO.count() + 1 + "";
+        return  count;
     }
 
     @Override
