@@ -2,10 +2,8 @@ package lk.ijse.dep.app.business.custom.impl;
 
 import lk.ijse.dep.app.business.Converter;
 import lk.ijse.dep.app.business.custom.ManageOrdersBO;
-import lk.ijse.dep.app.dao.custom.ItemDAO;
-import lk.ijse.dep.app.dao.custom.OrderDAO;
-import lk.ijse.dep.app.dao.custom.OrderDetailDAO;
-import lk.ijse.dep.app.dao.custom.QueryDAO;
+import lk.ijse.dep.app.dao.custom.*;
+import lk.ijse.dep.app.dto.CustomerDTO;
 import lk.ijse.dep.app.dto.OrderDTO;
 import lk.ijse.dep.app.dto.OrderDTO2;
 import lk.ijse.dep.app.dto.OrderDetailDTO;
@@ -28,13 +26,15 @@ public class ManageOrdersBOImpl implements ManageOrdersBO {
     private OrderDetailDAO orderDetailDAO;
     private ItemDAO itemDAO;
     private QueryDAO queryDAO;
+    private CustomerDAO customerDAO;
 
     @Autowired
-    public ManageOrdersBOImpl(OrderDAO orderDAO,OrderDetailDAO orderDetailDAO,ItemDAO itemDAO,QueryDAO queryDAO) {
+    public ManageOrdersBOImpl(OrderDAO orderDAO,OrderDetailDAO orderDetailDAO,ItemDAO itemDAO,QueryDAO queryDAO,CustomerDAO customerDAO) {
        this.orderDAO=orderDAO;
        this.orderDetailDAO=orderDetailDAO;
        this.itemDAO=itemDAO;
        this.queryDAO=queryDAO;
+       this.customerDAO=customerDAO;
     }
 
     @Override
@@ -83,7 +83,29 @@ public class ManageOrdersBOImpl implements ManageOrdersBO {
 
     @Override
     public OrderDTO findOrder(String orderId) throws Exception {
-        return null;
+        CustomerDTO customerDTO ;
+        List<OrderDetailDTO> dtoList = new ArrayList<>();
+
+        List<CustomEntity> odwtid = queryDAO.findOrderDetailsWithItemDescriptions(orderId);
+        OrderDTO orderDTO = null;
+
+
+        customerDTO = customerDAO.find("c001").map(Converter::<CustomerDTO>getDTO).orElse(null);
+
+        List<OrderDetail> orderDetails = orderDetailDAO.find(orderId);
+        for (OrderDetail orderDetail : orderDetails) {
+            System.out.println(orderDetail.getOrder().getId()+" "+ orderDetail.getCode().getDescription()+" "+orderDetail.getQty()+" "+orderDetail.getUnitPrice());
+            dtoList.add(new OrderDetailDTO(orderDetail.getOrder().getId(), orderDetail.getCode().getDescription(), orderDetail.getQty(), orderDetail.getUnitPrice()));
+        }
+
+        for (CustomEntity customEntity : odwtid) {
+            //////////////////////////////////////////////////////////////////////////////////////////////////
+
+            orderDTO = new OrderDTO(customEntity.getOrderId(), customEntity.getOrderDate().toLocalDate(), customerDTO, dtoList);
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        }
+
+        return orderDTO;
     }
 
 //    private OrderDAO orderDAO;
