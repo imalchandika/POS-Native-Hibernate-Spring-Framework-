@@ -20,9 +20,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-/**
- * @author ranjith-suranga
- */
+/**imal@com*/
 public class AppInitializer extends Application {
 
     public static AnnotationConfigApplicationContext ctx;
